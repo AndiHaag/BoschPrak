@@ -1,9 +1,9 @@
 li a {
     color: white;
     font-size: 20;
+    text-decoration: none;
 }
 
 body {
-    background: white url("images/background.jpg");
-    background-size: cover;
+    background-image: linear-gradient(to right,#65F4CD, #4799E9);
 }
