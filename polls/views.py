@@ -3,9 +3,9 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.http import JsonResponse
 
 from .models import Choice, Question
-
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -54,3 +54,15 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+def resultsData(request, obj):
+    votedata = []
+
+    question = Question.objects.get(id=obj)
+    votes = question.choice_set.all()
+
+    for i in votes:
+        votedata.append({i.choice_text:i.votes})
+
+    print(votedata)
+    return JsonResponse(votedata, safe=False)
