@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+      <meta charset="utf-8">
+      <title>Home</title>
+      {% load static %}
+      <link rel="stylesheet" type="text/css" href="{% static 'polls/index_style.css' %}">
+    </head>
+    <body>
+      <div class="header">
+        <div><p id="logo">POLLS'N'SURVEY</p></div>
+        <div><p id="title">Q&A</p></div>
+      </div>
+
+      <hr>
+
+      {% if latest_question_list %}
+      <div class="questionlist" align="center">
+        {% for question in latest_question_list %}
+          <a href="{% url 'polls:detail' question.id %}" class="questions">{{ question.question_text }}</a></li>
+          <br>
+        {% endfor %}
+      </div>
+      {% else %}
+        <p>No polls are available.</p>
+      {% endif %}
+
+      <div class="wrap">
+        <form action="/">
+          <button class="button">GO BACK</button>
+        </form>
+      </div>
+
+    </body>
+</html>

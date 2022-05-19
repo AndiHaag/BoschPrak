@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <title>POLLS'N'SURVEY</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'pages/start_style.css' %}">
+    </head>
+
+    <body>
+      <div class="header">
+        <p id="logo">POLLS'N'SURVEY</p>
+      </div>
+
+      <div class="container">
+        <p class="text">WEBSITE FOR YOUR DECISIONS</p>
+      </div>
+
+      <div class="wrap">
+        <form action="{% url 'polls:index' %}">
+          <button class="button">TO SURVEY</button>
+        </form>
+      </div>
+
+    </body>
+</html>

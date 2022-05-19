@@ -2,11 +2,13 @@ from django.contrib import admin
 
 from .models import Choice, Question
 
+# Choice options adminsite
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
     extra = 3
 
+# Question options adminsite including choice options
 
 class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [

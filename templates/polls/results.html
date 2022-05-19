@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+      <meta charset="utf-8">
+      <title>Result</title>
+      {% load static %}
+      <link rel="stylesheet" type="text/css" href="{% static 'polls/results_style.css' %}">
+      <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    </head>
+    <body>
+      <div class="header">
+        <div><p id="logo">POLLS'N'SURVEY</p></div>
+      </div>
+
+      <h1>{{ question.question_text }}</h1>
+
+      <div class="table">
+        <ul>
+        {% for choice in question.choice_set.all %}
+            <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+        {% endfor %}
+        </ul>
+      </div>
+
+      <div id="myChart" align="center"></div>
+
+      <div class="wrap">
+        <div class="block">
+          <form action="{% url 'polls:detail' question.id %}">
+            <button class="button">VOTE AGAIN</button>
+          </form>
+        </div>
+        <div class="block">
+          <form action="{% url 'polls:index' %}">
+            <button class="button">QUESTIONS</button>
+          </form>
+        </div>
+      </div>
+
+      <script>
+
+      	var state ={
+      		'items':[],
+      		'values':[],
+      	}
+
+      	var objId = "{{question.id}}"
+
+      	var dataURL = `/polls/resultsdata/${objId}/`
+      	$.ajax({
+      		method:'GET',
+      		url:dataURL,
+      		success:function(response){
+      			console.log('RESPONSE:', response)
+      			for (var i in response){
+
+      				var key = Object.keys(response[i])[0]
+      				var value = Object.values(response[i])[0]
+
+      				state.items.push(key)
+      				state.values.push(value)
+      			}
+
+      			console.log('STATE:', state)
+      			buildChart()
+
+      		}
+      	})
+
+      	function buildChart(){
+      			var chartData = {
+            "plot": {
+              "background-color": "#2ee5ba"
+            },
+      			"type":"bar",
+      			"scale-x":{
+      				"values":state.items
+      			},
+      			"series":[
+      				{
+      					"values":state.values
+      				}
+      			]
+      		}
+
+      		zingchart.render({
+      		  id: "myChart",
+            height: "400",
+            width: "750",
+            data: chartData,
+      		});
+      	}
+
+      </script>
+    </body>
+</html>
